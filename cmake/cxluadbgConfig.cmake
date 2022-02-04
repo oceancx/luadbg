@@ -1,0 +1,5 @@
+if(NOT TARGET cxluadbg)
+    find_package(LuaCJson) 
+    find_package(asio)
+    include("${CMAKE_CURRENT_LIST_DIR}/cxluadbgTargets.cmake")
+endif()
