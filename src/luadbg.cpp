@@ -30,7 +30,7 @@ std::thread* debuggee_thread;
 NetThreadQueue g_DebugAdapterQueue;
 
 #define luaL_requirelib(L,name,fn) (luaL_requiref(L, name, fn, 1),lua_pop(L, 1))
-extern "C"  int luaopen_cjson(lua_State * L);
+//extern "C"  int luaopen_cjson(lua_State * L);
 
 void luadbg_register_common_lua_functions(lua_State* L) {
 	luaL_requirelib(L, "cjson", luaopen_cjson);
@@ -196,8 +196,7 @@ extern "C" {
 #endif	 
 	LUADBGAPI int _luaopen_luadbg(LuaProxy* (*proxy)(), lua_State* L)
 	{
-		__proxy__ = proxy;
-		luaL_requirelib(L, "cjson", luaopen_cjson);
+		__proxy__ = proxy; 
 
 		script_system_register_luac_function(L, luadbg_listen);
 		script_system_register_function(L, luadbg_stop);

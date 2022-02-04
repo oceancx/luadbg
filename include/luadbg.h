@@ -160,6 +160,7 @@ typedef struct _LuaProxy
 	void(*luaL_pushmodule)(lua_State *L, const char *modname, int sizehint);
 	void(*luaL_openlib)(lua_State *L, const char *libname, const luaL_Reg *l, int nup);
 	void(*luaL_openlibs)(lua_State *L);
+	int(*luaopen_cjson)(lua_State* L);
 }LuaProxy;
 
 #if defined(_WIN32) && defined(_LUADBG_BUILD_DLL)
@@ -337,9 +338,9 @@ extern "C" {
 #define luaL_pushmodule __lua_proxy__()->luaL_pushmodule
 #define luaL_openlib __lua_proxy__()->luaL_openlib
 #define luaL_openlibs __lua_proxy__()->luaL_openlibs
-
+#define luaopen_cjson __lua_proxy__()->luaopen_cjson
 #else
-
+extern "C"  int luaopen_cjson(lua_State * L);
 static LuaProxy* __lua_proxy_impl__()
 {
 	static LuaProxy __impl__{
@@ -490,7 +491,8 @@ static LuaProxy* __lua_proxy_impl__()
 		luaL_buffinitsize,
 		luaL_pushmodule,
 		luaL_openlib,
-		luaL_openlibs
+		luaL_openlibs,
+		luaopen_cjson
 	};
 	return &__impl__;
 }
